@@ -31,7 +31,7 @@ def find_diff(dict_1, dict_2, mismatch_dict):
             continue
 
         if isinstance(val_dict1, str):
-            if val_dict1 != dict_2.get(key):
+            if val_dict1 != val_dict2:
                 mismatch_dict.setdefault("dict1", dict()).setdefault(key, dict_1.get(key))
                 mismatch_dict.setdefault("dict2", dict()).setdefault(key, dict_2.get(key))
 
@@ -54,8 +54,10 @@ def find_diff(dict_1, dict_2, mismatch_dict):
                     continue
                 for_dict_1 = returned_diff.get("dict1")
                 for_dict_2 = returned_diff.get("dict2")
-                mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
-                mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
+                if for_dict_1:
+                    mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
+                if for_dict_2:
+                    mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
 
             if all(isinstance(x, list) for x in val_dict1) and all(isinstance(x, list) for x in val_dict2):
                 _tmp_dict_1 = pre_process_dict({"temp": val_dict1}).get("temp")
@@ -67,8 +69,10 @@ def find_diff(dict_1, dict_2, mismatch_dict):
                     continue
                 for_dict_1 = returned_diff.get("dict1")
                 for_dict_2 = returned_diff.get("dict2")
-                mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
-                mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
+                if for_dict_1:
+                    mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
+                if for_dict_2:
+                    mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
 
         if isinstance(val_dict1, dict) and isinstance(dict_2.get(key), dict):
             _mismatch_dict = dict()
@@ -77,8 +81,10 @@ def find_diff(dict_1, dict_2, mismatch_dict):
                 continue
             for_dict_1 = returned_diff.get("dict1")
             for_dict_2 = returned_diff.get("dict2")
-            mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
-            mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
+            if for_dict_1:
+                mismatch_dict.setdefault("dict1", dict()).setdefault(key, for_dict_1)
+            if for_dict_2:
+                mismatch_dict.setdefault("dict2", dict()).setdefault(key, for_dict_2)
 
     return mismatch_dict
 
